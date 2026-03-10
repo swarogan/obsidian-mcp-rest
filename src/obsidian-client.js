@@ -1,1 +1,0 @@
-export * from "./lib/obsidian/index.js";

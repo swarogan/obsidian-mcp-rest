@@ -1,4 +1,7 @@
 node_modules/
 coverage/
-.DS_Storeexternal/
+dist/
+dist-test/
+.DS_Store
+external/
 .idea/
