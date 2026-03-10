@@ -77,7 +77,7 @@ export class McpObsidianSettingTab extends PluginSettingTab {
       .setDesc("obsidian-api base URL")
       .addText((text) =>
         text
-          .setPlaceholder("http://127.0.0.1:27124")
+          .setPlaceholder("https://127.0.0.1:27124")
           .setValue(this.plugin.settings.obsidianApiUrl)
           .setDisabled(this.plugin.settings.autoDetectApiKey && !!info)
           .onChange(async (value) => {

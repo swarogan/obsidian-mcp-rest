@@ -1,4 +1,4 @@
-export const DEFAULT_BASE_URL = "http://127.0.0.1:27124";
+export const DEFAULT_BASE_URL = "https://127.0.0.1:27124";
 export const DEFAULT_TIMEOUT_MS = 30_000;
 
 export const MARKDOWN_CONTENT_TYPE = "text/markdown; charset=utf-8";

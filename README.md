@@ -46,7 +46,7 @@ Set environment variables:
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `OBSIDIAN_API_KEY` | Yes | — | Bearer token from plugin settings |
-| `OBSIDIAN_REST_URL` | No | `http://127.0.0.1:27124` | Obsidian REST API URL |
+| `OBSIDIAN_REST_URL` | No | `https://127.0.0.1:27124` | Obsidian REST API URL |
 | `OBSIDIAN_REQUEST_TIMEOUT_MS` | No | `30000` | Request timeout in ms |
 
 ## MCP Client Configuration
@@ -67,7 +67,7 @@ claude mcp add obsidian -e OBSIDIAN_API_KEY="your-api-key" -- npx -y mcp-obsidia
       "args": ["-y", "mcp-obsidian"],
       "env": {
         "OBSIDIAN_API_KEY": "your-api-key",
-        "OBSIDIAN_REST_URL": "http://127.0.0.1:27124"
+        "OBSIDIAN_REST_URL": "https://127.0.0.1:27124"
       }
     }
   }
