@@ -1,8 +1,7 @@
 {
   "name": "mcp-obsidian",
   "version": "0.1.0",
-  "private": true,
-  "description": "Lightweight MCP server for Obsidian REST API with proper UTF-8 and PATCH v3 support.",
+  "description": "MCP server for Obsidian — connects AI agents to your vault via obsidian-api",
   "type": "module",
   "main": "main.js",
   "bin": {
