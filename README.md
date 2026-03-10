@@ -2,12 +2,15 @@
 
 A lightweight MCP (Model Context Protocol) server for Obsidian, built as a thin wrapper over the Obsidian REST API.
 
+Also available as an **Obsidian plugin** with settings UI, auto-detection of [obsidian-api](https://github.com/vigeron/obsidian-api), and one-click MCP server installation.
+
 Zero npm dependencies. Node.js built-ins only.
 
 ## Features
 
 - **18 MCP tools** — full vault CRUD, search, templates, active file operations
 - **MCP prompts** — auto-discovery of prompt templates from vault
+- **Obsidian plugin** — settings tab with auto-detect, install, and copyable config
 - **Zero dependencies** — uses only Node.js built-in modules
 - **UTF-8 correct** — all markdown operations preserve Unicode properly
 - **PATCH v3** — proper header-based patch with heading/block/frontmatter targeting
@@ -23,17 +26,18 @@ Zero npm dependencies. Node.js built-ins only.
 
 ## Installation
 
-```bash
-npx mcp-obsidian
-```
-
-Or clone and run directly:
+### As MCP server
 
 ```bash
-git clone https://github.com/vigeron/mcp-obsidian.git
-cd mcp-obsidian
-node src/index.js
+npx -y mcp-obsidian
 ```
+
+### As Obsidian plugin
+
+1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/vigeron/mcp-obsidian/releases/latest)
+2. Create `<vault>/.obsidian/plugins/mcp-obsidian/` and place the files there
+3. Enable the plugin in Obsidian settings
+4. The plugin auto-detects obsidian-api settings and provides a copyable MCP config
 
 ## Configuration
 
@@ -47,14 +51,20 @@ Set environment variables:
 
 ## MCP Client Configuration
 
-Add to your MCP client config (e.g. Claude Code):
+### Claude Code
+
+```bash
+claude mcp add obsidian -e OBSIDIAN_API_KEY="your-api-key" -- npx -y mcp-obsidian
+```
+
+### Claude Desktop / other MCP clients
 
 ```json
 {
   "mcpServers": {
     "obsidian": {
-      "command": "node",
-      "args": ["/path/to/mcp-obsidian/src/index.js"],
+      "command": "npx",
+      "args": ["-y", "mcp-obsidian"],
       "env": {
         "OBSIDIAN_API_KEY": "your-api-key",
         "OBSIDIAN_REST_URL": "http://127.0.0.1:27124"

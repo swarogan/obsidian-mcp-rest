@@ -1,11 +1,17 @@
 import { execFile } from "child_process";
-import { homedir } from "os";
+import { homedir, platform } from "os";
 import { join } from "path";
 
 const PACKAGE = "mcp-obsidian";
 
-function userPrefix(): string {
-  return join(homedir(), ".local");
+function prefixArgs(): string[] {
+  // Linux npm global defaults to /usr which requires root.
+  // ~/.local/bin is typically in PATH on modern Linux distros.
+  // Windows/macOS npm global installs to user-writable locations by default.
+  if (platform() === "linux") {
+    return ["--prefix", join(homedir(), ".local")];
+  }
+  return [];
 }
 
 function run(cmd: string, args: string[]): Promise<string> {
@@ -21,16 +27,16 @@ function run(cmd: string, args: string[]): Promise<string> {
 }
 
 export async function installMcpServer(): Promise<string> {
-  return run("npm", ["install", "-g", "--prefix", userPrefix(), PACKAGE]);
+  return run("npm", ["install", "-g", ...prefixArgs(), PACKAGE]);
 }
 
 export async function uninstallMcpServer(): Promise<string> {
-  return run("npm", ["uninstall", "-g", "--prefix", userPrefix(), PACKAGE]);
+  return run("npm", ["uninstall", "-g", ...prefixArgs(), PACKAGE]);
 }
 
 export async function getInstalledVersion(): Promise<string | null> {
   try {
-    const out = await run("npm", ["ls", "-g", "--prefix", userPrefix(), PACKAGE, "--depth=0", "--json"]);
+    const out = await run("npm", ["ls", "-g", ...prefixArgs(), PACKAGE, "--depth=0", "--json"]);
     const data = JSON.parse(out);
     return data.dependencies?.[PACKAGE]?.version ?? null;
   } catch {
