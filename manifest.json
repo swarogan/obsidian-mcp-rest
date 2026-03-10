@@ -1,0 +1,10 @@
+{
+	"id": "mcp-obsidian",
+	"name": "MCP Obsidian",
+	"version": "0.1.0",
+	"minAppVersion": "1.0.0",
+	"description": "MCP server for Obsidian — connects Claude to your vault via obsidian-api.",
+	"author": "vigeron",
+	"authorUrl": "https://github.com/vigeron",
+	"isDesktopOnly": true
+}

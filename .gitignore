@@ -5,3 +5,5 @@ dist-test/
 .DS_Store
 external/
 .idea/
+main.js
+data.json
