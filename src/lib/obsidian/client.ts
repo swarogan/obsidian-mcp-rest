@@ -6,7 +6,7 @@ import {
   JSON_NOTE_CONTENT_TYPE,
   MARKDOWN_CONTENT_TYPE,
 } from "./constants.js";
-import { buildPatchHeaders, normalizePatchContent } from "./patch.js";
+import { buildPatchBody } from "./patch.js";
 import { encodeVaultDirectoryPath, encodeVaultPath, normalizeVaultDirectoryPath, normalizeVaultPath } from "./path-utils.js";
 import {
   assertStringRecord,
@@ -113,11 +113,10 @@ export class ObsidianRestClient {
   }
 
   async patchActiveFile(args: PatchArgs): Promise<unknown> {
-    const contentType = args.contentType ?? MARKDOWN_CONTENT_TYPE;
     return this.request("/active/", {
       method: "PATCH",
-      headers: buildPatchHeaders({ ...args, contentType }),
-      body: normalizePatchContent(args.content, contentType),
+      headers: { "Content-Type": JSON_CONTENT_TYPE },
+      body: buildPatchBody(args),
       responseType: "text",
     });
   }
@@ -196,11 +195,10 @@ export class ObsidianRestClient {
   }
 
   async patchVaultFile({ filename, ...args }: PatchArgs & { filename: string }): Promise<unknown> {
-    const contentType = args.contentType ?? MARKDOWN_CONTENT_TYPE;
     return this.request(`/vault/${encodeVaultPath(filename)}`, {
       method: "PATCH",
-      headers: buildPatchHeaders({ ...args, contentType }),
-      body: normalizePatchContent(args.content, contentType),
+      headers: { "Content-Type": JSON_CONTENT_TYPE },
+      body: buildPatchBody(args),
       responseType: "text",
     });
   }
