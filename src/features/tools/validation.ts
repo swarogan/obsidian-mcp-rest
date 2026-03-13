@@ -12,10 +12,11 @@ function expectObject(rawArguments: unknown, toolName: string): Record<string, u
 }
 
 function requireString(object: Record<string, unknown>, key: string, toolName: string): string {
-  if (typeof object[key] !== "string" || (object[key] as string).trim() === "") {
+  const value = object[key];
+  if (typeof value !== "string" || value.trim() === "") {
     throw new ToolArgumentError(`Pole \`${key}\` w narzędziu \`${toolName}\` musi być niepustym stringiem.`);
   }
-  return object[key] as string;
+  return value;
 }
 
 function requireEnum<T extends string>(
@@ -34,23 +35,25 @@ function requireEnum<T extends string>(
 }
 
 function optionalString(object: Record<string, unknown>, key: string, toolName: string): string | undefined {
-  if (object[key] === undefined) {
+  const value = object[key];
+  if (value === undefined) {
     return undefined;
   }
-  if (typeof object[key] !== "string") {
+  if (typeof value !== "string") {
     throw new ToolArgumentError(`Pole \`${key}\` w narzędziu \`${toolName}\` musi być stringiem.`);
   }
-  return object[key] as string;
+  return value;
 }
 
 function optionalBoolean(object: Record<string, unknown>, key: string, toolName: string): boolean | undefined {
-  if (object[key] === undefined) {
+  const value = object[key];
+  if (value === undefined) {
     return undefined;
   }
-  if (typeof object[key] !== "boolean") {
+  if (typeof value !== "boolean") {
     throw new ToolArgumentError(`Pole \`${key}\` w narzędziu \`${toolName}\` musi być booleanem.`);
   }
-  return object[key] as boolean;
+  return value;
 }
 
 function optionalBooleanLike(
@@ -97,10 +100,11 @@ function optionalStringArray(object: Record<string, unknown>, key: string, toolN
   if (object[key] === undefined) {
     return undefined;
   }
-  if (!Array.isArray(object[key]) || (object[key] as unknown[]).some((item) => typeof item !== "string" || (item as string).trim() === "")) {
+  const value = object[key];
+  if (!Array.isArray(value) || value.some((item) => typeof item !== "string" || item.trim() === "")) {
     throw new ToolArgumentError(`Pole \`${key}\` w narzędziu \`${toolName}\` musi być tablicą niepustych stringów.`);
   }
-  return object[key] as string[];
+  return value as string[];
 }
 
 function optionalStringRecord(

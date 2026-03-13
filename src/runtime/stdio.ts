@@ -11,7 +11,7 @@ export function startStdioServer(server: McpServer, { input = process.stdin, out
   let queue = Promise.resolve();
 
   function writeMessage(message: JsonRpcResponse): void {
-    (output as NodeJS.WritableStream).write(`${JSON.stringify(message)}\n`);
+    output.write(`${JSON.stringify(message)}\n`);
   }
 
   async function handleLine(line: string): Promise<void> {
@@ -35,9 +35,9 @@ export function startStdioServer(server: McpServer, { input = process.stdin, out
       }
     } catch (error) {
       const text = error instanceof Error ? error.stack ?? error.message : String(error);
-      (errorOutput as NodeJS.WritableStream).write(`[obsidian-mcp-rest] ${text}\n`);
+      errorOutput.write(`[obsidian-mcp-rest] ${text}\n`);
 
-      if (message && typeof message === "object" && Object.hasOwn(message as object, "id")) {
+      if (message && typeof message === "object" && Object.hasOwn(message, "id")) {
         writeMessage({
           jsonrpc: "2.0",
           id: (message as { id: number | string | null }).id,
@@ -62,7 +62,7 @@ export function startStdioServer(server: McpServer, { input = process.stdin, out
     }
   }
 
-  (input as NodeJS.ReadableStream & { setEncoding(encoding: string): void }).setEncoding("utf8");
+  input.setEncoding("utf8");
   input.on("data", (chunk: string) => {
     buffer += chunk;
     flushBuffer();
@@ -70,9 +70,9 @@ export function startStdioServer(server: McpServer, { input = process.stdin, out
 
   input.on("end", () => {
     if (buffer.trim() !== "") {
-      (errorOutput as NodeJS.WritableStream).write("[obsidian-mcp-rest] Pominięto końcowe dane bez znaku nowej linii.\n");
+      errorOutput.write("[obsidian-mcp-rest] Pominięto końcowe dane bez znaku nowej linii.\n");
     }
   });
 
-  (input as NodeJS.ReadableStream & { resume(): void }).resume();
+  input.resume();
 }

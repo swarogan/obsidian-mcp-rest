@@ -106,7 +106,7 @@ function validatePromptArguments(parameters: PromptParameter[], rawArguments: un
 }
 
 function stripFrontmatter(content: unknown): string {
-  const text = String(content ?? "").trim();
+  const text = (typeof content === "string" ? content : "").trim();
   const match = text.match(/^---\s*\r?\n[\s\S]*?\r?\n---\s*(?:\r?\n)?([\s\S]*)$/);
   return (match ? match[1] : text).trim();
 }

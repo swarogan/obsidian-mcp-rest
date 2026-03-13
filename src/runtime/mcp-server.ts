@@ -72,7 +72,12 @@ export function createMcpServer({ clientFactory = () => createClientFromEnv(), f
 
   const toolRegistry = createToolRegistry({ getClient, fetchImpl });
   const promptRegistry = createPromptRegistry({ getClient });
-  const toolDefinitions = [...toolRegistry.values()].map(({ execute, validate, ...tool }: ToolDefinition) => tool);
+  const toolDefinitions = [...toolRegistry.values()].map((def) => ({
+    name: def.name,
+    title: def.title,
+    description: def.description,
+    inputSchema: def.inputSchema,
+  }));
 
   return {
     async handleMessage(message: unknown): Promise<JsonRpcResponse | null> {
